@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>particles.js</title>
+  <meta name="description" content="particles.js is a lightweight JavaScript library for creating particles.">
+  <meta name="author" content="Vincent Garreau" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">	
+
+  <link rel="stylesheet" media="screen" href="css/style.css">
+  <style type="text/css">
+html,body{
+  background-color:black;
+}
+
+h1{
+  color:white;
+  text-align: center;
+  font-size: 8em;
+}
+
+h2{
+  text-align: center;
+  color:white;
+}
+
+p{
+  color:white;
+  text-align:center;
+}
+
+#calcOutput{
+  background-color: white;
+  height:75px;
+  width:250px;
+  border-top-left-radius:2em;
+  border-top-right-radius:2em;
+  margin: auto;
+  margin:auto;
+  margin-top:20px;
+  padding-top:20px
+}
+
+#calculator{
+  background-color: grey;
+  width:250px;
+  padding: 20px 0 30px 0;
+  border-bottom-left-radius:2em;
+  border-bottom-right-radius:2em;
+  margin: auto;
+}
+
+#steps{
+  padding-left:50px;
+  font-size:2em;
+}
+.big-button{
+  width:93px;
+}
+a{
+  margin:5px;
+
+}
+.btn{
+
+}
+.wrapper{
+	position: absolute;
+	left:500px;
+	top:100px;
+}
+a p{
+  transform:translateX(-7.5px);
+}
+</style>
+</head>
+<body>
+
+<!-- count particles -->
+<div class="count-particles">
+  <span class="js-count-particles">--</span> particles
+</div>
+
+<!-- particles.js container -->
+<!-- wrap everything in particle div -->
+<div id="particles-js">
+<div class="wrapper">	
+<div class= 'text-center'>
+  <h1>Calculator</h1>
+  <h2>Tim Allen Functionality</h2>
+  <p>First of it's kind</p>
+</div>
+
+<div id='calcOutput'>
+  <span id = "steps">0</span>
+  <hr>
+</div>
+<div class = 'text-center' id = 'calculator'>
+  <a class= 'btn btn-danger' id='deleteAll'><p>AC</p></a>
+  <a class= 'btn btn-danger' id='backOne'><p>CE</p></a>
+  <a class='btn btn-primary' id='/'>/</a>
+    <a class='btn btn-primary' id='*'>*</a>
+  <br>
+  <a class='btn btn-primary' id='7'>7</a>
+  <a class='btn btn-primary' id='8'>8</a>
+  <a class='btn btn-primary' id='9'>9</a>
+  <a class='btn btn-primary' id='-'>-</a>
+  <br>
+  <a class='btn btn-primary' id='4'>4</a>
+  <a class='btn btn-primary' id='5'>5</a>
+  <a class='btn btn-primary' id='6'>6</a>
+  <a class='btn btn-primary' id='+'>+</a>
+  <br>
+  <a class='btn btn-primary' id='1'>1</a>
+  <a class='btn btn-primary' id='2'>2</a>
+  <a class='btn btn-primary' id='3'>3</a>
+  <a class='btn btn-primary' id='.'>.</a>
+  <br>
+  <a class='btn btn-primary big-button' id='0'>0</a>
+
+  <a class='btn btn-primary big-button' id='total'>=</a>
+  <br>
+  <a class= 'btn btn-danger big-button' id='tim-allen'>Tim-Allen</a>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+<script type="text/javascript">$(document).ready(function(){
+  //stores the input from the user to calculate later
+  var inputs=[""];
+  // string to store current input string
+  var totalString;
+  // Operators array for validation without (.)//
+  var operators1 = ["+","-","*","/"];
+  // Validation of da dot
+  var operators2 = ["."];
+  //numbers
+  var nums = [0,1,2,3,4,5,6,7,8,9];
+  
+  function getValue(input){
+    if(operators2.includes(inputs[inputs.length-1]===true && input===".")){
+      console.log("Yo homie chill on your decimals!")
+    }
+    else if(inputs.length===1 && operators1.includes(input)===false){
+      inputs.push(input);
+    }
+    else if(operators1.includes(inputs[inputs.length-1])===false){
+      inputs.push(input);
+    }
+    else if(nums.includes(Number(input))){
+      inputs.push(input);
+    }
+    update();
+  }
+  
+  function update(){
+    totalString = inputs.join('');
+    $("#steps").html(totalString);
+  }
+  
+  function getTotal(){
+    totalString  = inputs.join('');
+    $("#steps").html(eval(totalString));
+  }
+  $("a").on("click",function(){
+    if(this.id==="deleteAll"){
+      inputs=[""];
+      update();
+    }
+    else if(this.id==="backOne"){
+      inputs.pop();
+      update();
+    }
+    else if(this.id==="total"){
+      getTotal();
+      inputs=[totalString];
+    }
+    else{
+      if(inputs[inputs.length-1].indexOf("+","-","/","*"===-1)){
+            getValue(this.id);         
+         }
+      else{
+            getValue(this.id);
+         }
+    }
+  });
+  
+});</script>
+
+
+
+
+<!-- scripts -->
+<script src="../particles.js"></script>
+<script src="js/app.js"></script>
+
+<!-- stats.js -->
+<script src="js/lib/stats.js"></script>
+<script>
+  var count_particles, stats, update;
+  stats = new Stats;
+  stats.setMode(0);
+  stats.domElement.style.position = 'absolute';
+  stats.domElement.style.left = '0px';
+  stats.domElement.style.top = '0px';
+  document.body.appendChild(stats.domElement);
+  count_particles = document.querySelector('.js-count-particles');
+  update = function() {
+    stats.begin();
+    stats.end();
+    if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+      count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+    }
+    requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+</script>
+
+</body>
+</html>
